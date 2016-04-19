@@ -17,7 +17,7 @@ router.use( function auth(req, res, next) {
     return unauthorized(res);
   };
 
-  if (user.name === 'foo' && user.pass === 'bar') {
+  if (user.name === 'admin' && user.pass === 'admin') {
     return next();
   } else {
     return unauthorized(res);

@@ -7,13 +7,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var nunjucks = require('nunjucks');
+var io  = require('socket.io')();
 
 var routes = require('./routes/index');
 var users = require('./routes/user');
 var master = require("./routes/master");
-
+var slides = require('./routes/slides');
 var app = express();
-
+app.io = io;
 var env = process.env.NODE_ENV || 'development';
 app.locals.ENV = env;
 app.locals.ENV_DEVELOPMENT = env == 'development';
@@ -37,6 +38,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/slides', slides);
 app.use('/users', users);
 app.use('/master', master);
 
@@ -75,5 +77,21 @@ app.use(function(err, req, res, next) {
     });
 });
 
+
+io.on( 'connection', function( socket ) {
+	socket.on('multiplex-statechanged', function(data) {
+		if (typeof data.secret == 'undefined' || data.secret == null || data.secret === '') return;
+		if (createHash(data.secret) === data.socketId) {
+			data.secret = null;
+			socket.broadcast.emit(data.socketId, data);
+		};
+	});
+});
+
+
+var createHash = function(secret) {
+	var cipher = crypto.createCipher('blowfish', secret);
+	return(cipher.final('hex'));
+};
 
 module.exports = app;
