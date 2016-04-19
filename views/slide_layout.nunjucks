@@ -35,9 +35,10 @@
 			Reveal.initialize({
 				history: true,
 				multiplex: {
-					secret : "14610441809435406718",
-					id : 'b365a6474036a680',
-					url: 'http://localhost:1948'
+                    //TODO dynamic for master and client
+					secret : "",
+					id : '',
+					url: '/'
 				},
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
