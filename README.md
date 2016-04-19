@@ -5,7 +5,22 @@
 
 Reveal.js powered web app for presentations. 
 
-***Currently just started so nothing special as of now.***
+***Note: Currently just started so nothing special as of now. Main features not yet working***
+
+### Basic Setup
+1. Install node (for npm), gulp, and bower
+2. Run the following Commands:
+
+    npm install
+
+    bower install
+3. To load website, run
+ 
+    gulp    
+ 
+
+
+
 
 ### Goals
 - Dynamic slide template
